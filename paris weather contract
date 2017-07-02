@@ -1,0 +1,19 @@
+pragma solidity ^0.4.0;
+import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
+
+contract ParisWeatherDescription is usingOraclize {
+    
+    string description;
+    
+    // constructor called on contract deployment
+    function ParisWeatherDescription() {
+        /* get the weather description from openweather oracle using Paris city 
+        id */
+        oraclize_query("URL", "json(api.openweathermap.org/data/2.5/weather?id=2172797.weather.0.description)");
+    }
+    
+    // callback for when query returns
+    function __callback(string result) {
+        // set the description 
+    }
+}
