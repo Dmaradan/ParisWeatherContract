@@ -3,6 +3,8 @@ import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract ParisWeatherDescription is usingOraclize {
     
+    mapping(bytes32=>bool) myidList;
+
     string description;
     
     // constructor called on contract deployment
@@ -13,7 +15,19 @@ contract ParisWeatherDescription is usingOraclize {
     }
     
     // callback for when query returns
-    function __callback(string result) {
+    function __callback(bytes32 myid, string result) {
+
+        
+        if(msg.sender != oraclize_cbAddress()) throw;
+        if(myidList[myid] == true) {
+            //check if myid is new/not processed before
+            throw;
+        }
+
+        myidList[myid] = true;
+
         // set the description 
+
+        description = result;
     }
 }
